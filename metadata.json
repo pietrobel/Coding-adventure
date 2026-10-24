@@ -1,0 +1,7 @@
+{
+  "name": "Coding Adventures – Tre mondi da programmare",
+  "description": "Applicazione web didattica di coding a blocchi per la scuola secondaria di primo grado, con tre avventure originali.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
