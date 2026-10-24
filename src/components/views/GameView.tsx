@@ -561,7 +561,7 @@ export const GameView: React.FC<GameViewProps> = ({
           />
 
           {/* Palette & Workspace Side-by-side on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[440px]">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-[500px] h-[540px] max-h-[82vh]">
             {/* Block Palette */}
             <div className="md:col-span-5 h-full">
               <BlockPalette

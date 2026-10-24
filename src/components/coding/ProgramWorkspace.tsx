@@ -42,6 +42,7 @@ export const ProgramWorkspace: React.FC<ProgramWorkspaceProps> = ({
   const [isDragOverMain, setIsDragOverMain] = useState(false);
   const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null);
   const [isCompact, setIsCompact] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(100);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom smoothly when a block is added
@@ -244,7 +245,30 @@ export const ProgramWorkspace: React.FC<ProgramWorkspaceProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {/* Zoom Level Selector */}
+          <div className="flex items-center gap-0.5 bg-slate-800 border border-slate-700 rounded-lg p-0.5 text-[10px] font-mono text-slate-300">
+            <button
+              type="button"
+              onClick={() => setZoomLevel((z) => Math.max(75, z - 10))}
+              disabled={zoomLevel <= 75}
+              className="px-1.5 py-0.5 hover:bg-slate-700 rounded disabled:opacity-30 cursor-pointer font-bold"
+              title="Rimpicciolisci blocchi"
+            >
+              -
+            </button>
+            <span className="px-1 text-cyan-300 font-bold">{zoomLevel}%</span>
+            <button
+              type="button"
+              onClick={() => setZoomLevel((z) => Math.min(125, z + 10))}
+              disabled={zoomLevel >= 125}
+              className="px-1.5 py-0.5 hover:bg-slate-700 rounded disabled:opacity-30 cursor-pointer font-bold"
+              title="Ingrandisci blocchi"
+            >
+              +
+            </button>
+          </div>
+
           {/* Compact View Mode Switch */}
           <button
             type="button"
@@ -286,7 +310,18 @@ export const ProgramWorkspace: React.FC<ProgramWorkspaceProps> = ({
       </div>
 
       {/* Program Blocks Container with max-height and custom scrollbar */}
-      <div className={`flex-1 overflow-y-auto pr-1 ${isCompact ? 'space-y-1' : 'space-y-1.5'}`}>
+      <div
+        className={`flex-1 overflow-y-auto pr-1 ${isCompact ? 'space-y-1' : 'space-y-1.5'}`}
+        style={
+          zoomLevel !== 100
+            ? {
+                transform: `scale(${zoomLevel / 100})`,
+                transformOrigin: 'top left',
+                width: `${10000 / zoomLevel}%`
+              }
+            : undefined
+        }
+      >
         {program.length === 0 ? (
           <div
             onDragOver={(e) => {
